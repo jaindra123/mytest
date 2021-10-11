@@ -19,11 +19,20 @@ class PatientController extends Controller
     public function savePatient(Request $request) {
         $request->validate([
             'p_name' => 'required',
-            'p_email' => 'required',
-            'p_contact' => 'required',
+            'p_email' => 'required |email',
+            //'p_contact' => 'required|min:10|numeric',
+            'p_contact' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'hospital_id' => 'required',
             'dept_id' => 'required',
         ]);
+
+        $patient = Patient::where('p_email', '=', $request->input('p_email'))->first();
+        if ($patient != null) {
+           echo "Patient already exit. Please sign up with another email account";
+        } /*else {
+          echo "Allow for sign up";
+        }
+        die();*/
         $patient = new Patient();
         $patient->p_name = $request->p_name;
         $patient->p_email = $request->p_email;
@@ -42,18 +51,11 @@ class PatientController extends Controller
             ->get();
         return view('patient.patients',compact('patients'));
     }
-    #--------------------------- Get All Departments -------------------#
-    public function getAllDepartment(){
-        $departmentsdd = Department::orderBy('id', 'ASC')->get(); 
-       // echo "<pre>";
-       // print_r($departmentsdd);
-        return view('patient.add-patient',compact('departmentsdd'));
-    }
-
-    #--------------------------- Get All Hospital -------------------#
+    #--------------------------- Get All Hospital and Departments -------------------#
     public function getHospital(){
         $hospitals = Hospital::orderBy('id', 'ASC')->get(); 
-        return view('patient.add-patient',compact('hospitals'));
+        $departments = Department::orderBy('id', 'ASC')->get(); 
+        return view('patient.add-patient',compact(['departments','hospitals']));
     }
 
     #--------------------------- Search  -------------------#

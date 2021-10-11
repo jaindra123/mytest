@@ -45,14 +45,17 @@
                       @endforeach
                   @endif
               </select>
+              @error('hospital_id')
+                <div class="alert alert-danger">{{ $message }}</div>
+              @enderror
           </div>
 
           <div class="form-group col-md-6">
             <label for="inputPassword4">Department Name</label>
               <select name="dept_id" id="dept_id">
                 <option value="">-Select Department-</option>
-                  @if(isset($departmentsdd) && $departmentsdd != null)
-                      @foreach($departmentsdd as $department)
+                  @if(isset($departments) && $departments != null)
+                      @foreach($departments as $department)
                        <option value="{{$department->id}}">{{$department->dept_name}}</option>
                       @endforeach
                   @endif

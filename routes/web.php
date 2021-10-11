@@ -25,7 +25,6 @@ Route::get('/', function () {
 Route::get('/add-patient',[PatientController::class,'addPatient']);
 Route::post('/save-patient',[PatientController::class,'savePatient'])->name('patient.save');
 Route::get('/patients',[PatientController::class,'getPatient']);
-Route::get('/alldepartments',[PatientController::class,'getAllDepartment']);
 Route::get('/add-patient',[PatientController::class,'getHospital']);
 Route::get('/autocomplete',[PatientController::class,'AutoCompleteSearch'])->name('patient.search');
 
